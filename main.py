@@ -5,7 +5,6 @@ from pydantic import BaseModel
 import requests 
 
 alfabeto = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-
 class decriptografaFrase(BaseModel):
     fraseCripto: str
     chave: int
@@ -37,7 +36,6 @@ def getCifra():
                 caractere_criptografado = i
             fraseConvertidaArray.append(caractere_criptografado)
             fraseConvertidaString = ''.join(fraseConvertidaArray)
-            
             fraseImpressaUsuario = fraseConvertidaString.lower()
         return fraseImpressaUsuario
     #Chamada da função de criptografia 
@@ -49,7 +47,6 @@ def getCifra():
 def resolveCifra(fraseDecripto: decriptografaFrase):
     fraseConvertidaArray2 = []
     def decriptografa(fraseFormatadaArray, chave, alfabeto, fraseConvertidaArray):
-    
         for i in fraseFormatadaArray:
             try:
                 posicao = alfabeto.index(i)
