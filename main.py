@@ -4,7 +4,7 @@ from random import randint
 from pydantic import BaseModel
 import requests 
 
-alfabeto = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' ']
+alfabeto = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 class decriptografaFrase(BaseModel):
     fraseCripto: str
@@ -22,22 +22,22 @@ def getCifra():
     fraseConvertidaArray = []
     frase = str(dicionario['facts']) #Define que nossa frase será a chave para facts
     #Faz o tratamento da frase que recebemos e remove os caracteres especiais para evitar erros de cripstografia
-    caracteres = ",!?[]'-.:;$%0123456789()*/#@&¨"
-    caracteres2 = ',!?[]-.:;$%0"123456789()+*/#@&¨' 
-    frase = ''.join(l for l in frase if l not in caracteres and caracteres2)
+    caracteres = "[]'"
+    frase = ''.join(l for l in frase if l not in caracteres)
     fraseFormatadaArray = list(frase.upper())
     chave = randint(1,25)
     #Função responsável pela criptografia da frase recebida da dogAPI
     def criptografa(fraseFormatadaArray, chave, alfabeto, fraseConvertidaArray):
         for i in fraseFormatadaArray:
-            posicao = alfabeto.index(i)
-            if i == ' ':
-                nova_Posicao = posicao
-            else:
+            try:
+                posicao = alfabeto.index(i)
                 nova_Posicao = posicao + (chave)
-            caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+                caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+            except ValueError:
+                caractere_criptografado = i
             fraseConvertidaArray.append(caractere_criptografado)
             fraseConvertidaString = ''.join(fraseConvertidaArray)
+            
             fraseImpressaUsuario = fraseConvertidaString.lower()
         return fraseImpressaUsuario
     #Chamada da função de criptografia 
@@ -51,12 +51,12 @@ def resolveCifra(fraseDecripto: decriptografaFrase):
     def decriptografa(fraseFormatadaArray, chave, alfabeto, fraseConvertidaArray):
     
         for i in fraseFormatadaArray:
-            posicao = alfabeto.index(i)
-            if i == ' ':
-                nova_Posicao = posicao
-            else:
+            try:
+                posicao = alfabeto.index(i)
                 nova_Posicao = posicao - (chave)
-            caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+                caractere_criptografado = alfabeto[nova_Posicao % len(alfabeto)]
+            except ValueError:
+                caractere_criptografado = i
             fraseConvertidaArray.append(caractere_criptografado)
             fraseConvertidaString = ''.join(fraseConvertidaArray)
             fraseImpressaUsuario = fraseConvertidaString.lower()
